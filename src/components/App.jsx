@@ -16,6 +16,7 @@ export const App = () => {
   async function searchGallery() {
     try {
       setLoading(true);
+      PAGE = 1;
       let response = await axios.get(`${BASE_URL}`, {
         params: {
           key: API_KEY,
