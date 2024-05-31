@@ -8,20 +8,20 @@ export const App = () => {
   const [photos, setPhotos] = useState([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   const API_KEY = '44084395-bf6d64f8582b93ffa0a64f2d9';
   const BASE_URL = 'https://pixabay.com/api/';
-  let PAGE = 1;
 
   async function searchGallery() {
+    setPage(1);
     try {
       setLoading(true);
-      PAGE = 1;
       let response = await axios.get(`${BASE_URL}`, {
         params: {
           key: API_KEY,
           q: query,
-          page: PAGE,
+          page: 1,
           image_type: 'photo',
           orientation: 'horizontal',
           per_page: 12,
@@ -45,17 +45,17 @@ export const App = () => {
     } finally {
       setLoading(false);
     }
+    return setPage(2);
   }
 
   async function searchGalleryMore() {
     try {
       setLoading(true);
-      PAGE = PAGE + 1;
       let response = await axios.get(`${BASE_URL}`, {
         params: {
           key: API_KEY,
           q: query,
-          page: PAGE,
+          page: page,
           image_type: 'photo',
           orientation: 'horizontal',
           per_page: 12,
@@ -90,6 +90,7 @@ export const App = () => {
     } finally {
       setLoading(false);
     }
+    return setPage(old => old + 1);
   }
 
   return (
